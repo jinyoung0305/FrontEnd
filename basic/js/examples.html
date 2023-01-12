@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Accodion</h1>
+
+    <style>
+        button {
+            padding: 0.5rem;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            border-top: 1px solid #ddd;
+        }
+        button::after {
+            content: '+';
+            float: right;
+        }
+        .item {
+            overflow-y: hidden;
+            transition: 0.2s;
+        }
+        .item p {
+            margin: 0;
+            padding: 1rem;
+        }
+        button.active::after {
+            transform: rotate(45deg);
+            transition: 0.2s;
+        }
+        .max-h-0 {
+            max-height: 0;
+        }
+        .max-h-40 {
+            max-height: 10rem;
+        }
+    </style>
+
+    <div class="container">
+        <button onclick="f(this)">Tab 1</button>
+        <div class="item max-h-0">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui error maxime asperiores assumenda beatae. Ipsa, fugiat cupiditate! Exercitationem dolores magnam quos, rem sint, natus quaerat, dolorem eos debitis autem ut.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <button onclick="f(this)">Tab 2</button>
+        <div class="item max-h-0">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui error maxime asperiores assumenda beatae. Ipsa, fugiat cupiditate! Exercitationem dolores magnam quos, rem sint, natus quaerat, dolorem eos debitis autem ut.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <button onclick="f(this)">Tab 3</button>
+        <div class="item max-h-0">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui error maxime asperiores assumenda beatae. Ipsa, fugiat cupiditate! Exercitationem dolores magnam quos, rem sint, natus quaerat, dolorem eos debitis autem ut.</p>
+        </div>
+    </div>
+
+    <script>
+        function f(el) {
+            console.log(el);
+
+            const item = el.nextElementSibling;
+            
+            el.classList.toggle('active');
+            // toggle - 클래스에 이름이 있을시 빼고 없으면 추가함.
+            item.classList.toggle('max-h-0');
+            item.classList.toggle('max-h-40');
+        }
+    </script>
+
+    <!-- <h1>Beers</h1>
+    
+    <style>
+        button {
+            border: none;
+            background-color: transparent;
+            padding: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .border {
+            border-bottom: 1px solid black;
+        }
+    </style>
+
+    <div class="">
+        <button id="default" onclick="f(event, 'b0')">Guinness</button>
+        <button onclick="f(event, 'b1')">Heineken</button>
+        <button onclick="f(event, 'b2')">Budwiser</button>
+    </div>
+
+    <div class="container">
+        <div id="b0" class="beer">
+            <h3>Guinness</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium officia voluptatibus at nostrum sed molestiae esse, velit iste ut ab recusandae officiis perspiciatis doloribus! Asperiores nulla quo facere impedit.</p>
+        </div>
+
+        <div id="b1" class="beer">
+            <h3>Heineken</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium officia voluptatibus at nostrum sed molestiae esse, velit iste ut ab recusandae officiis perspiciatis doloribus! Asperiores nulla quo facere impedit.</p>
+        </div>
+
+        <div id="b2" class="beer">
+            <h3>Budwiser</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium officia voluptatibus at nostrum sed molestiae esse, velit iste ut ab recusandae officiis perspiciatis doloribus! Asperiores nulla quo facere impedit.</p>
+        </div>
+    </div>
+
+    <script>
+        function f(e, id) {
+            console.log(e); // event 객체
+            console.log(e.target);  // event가 발생한 button
+            console.log(id);
+
+            // 버튼 활성화 
+            var button = document.querySelectorAll('button');
+            for(let i=0; i<button.length; i++) {
+                button[i].classList.remove('border');
+            }
+            e.target.classList.add('border')
+
+            // 컨텐츠 활성화
+            let beers = document.getElementsByClassName('beer');
+
+            // 모든 beer클래스를 안보이게 한다
+            for(let i=0; i<beers.length; i++) {
+                beers[i].classList.add('hidden');
+            }
+
+            // id에 일치하는 beer만 보이게 한다
+            let beer = document.getElementById(id);
+            beer.classList.remove('hidden');
+        }
+        // 페이지 처음 로드되었을때 (새로고침) 실행한다
+        document.getElementById('default').click();
+    </script> -->
+
+    <!-- <h1 class="hidden">Navigation</h1>
+
+    <style>
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+            backdrop-filter: blur(8px);
+        }
+        .container {
+            position: relative;
+        }
+        .container h3 {
+            text-align: center;
+            margin: 0;
+            padding: 1rem;
+        }
+        .container button {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border: none;
+            cursor: pointer;
+            font-size: 2rem;
+            background-color: transparent;
+        }
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        nav a {
+            display: block;
+            text-align: center;
+            padding: 0.5rem;
+            text-decoration: none;
+            border-top: 1px solid #ddd;
+            color: #555;
+        }
+        nav a:hover {
+            color: #000;
+        }
+        main {
+            padding-top: 3rem;
+            min-height: 1000px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <header>
+        <div class="container">
+            <button>&#9776;</button>
+            <h3>Logo</h3>
+        </div>
+        <nav class="hidden">
+            <ul>
+                <li>
+                    <a href="">Link</a>
+                </li>
+                <li>
+                    <a href="">Link</a>
+                </li>
+                <li>
+                    <a href="">Link</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Top navigation</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam optio excepturi placeat possimus mollitia assumenda impedit. Voluptatum sit earum vel! Quaerat culpa harum sequi tenetur voluptates numquam perspiciatis hic excepturi.</p>
+    </main>
+
+    <script>
+        
+        var button = document.querySelector('button');
+        
+        button.addEventListener('click', (e) => {
+            let nav = document.querySelector('nav')
+            nav.classList.toggle('hidden');
+        })
+    
+    </script> -->
+
+    <!-- <style>
+        header button {
+            font-size: 2rem;
+            background-color: transparent;
+            cursor: pointer;
+            border: none;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15rem;
+            height: 100%;
+            background-color: #fff;
+            z-index: 1;
+            transition: 0.2s;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav h1 {
+            text-align: center;
+        }
+        nav a {
+            display: block;
+            padding: 0.75rem;
+            text-decoration: none;
+            color: #000;
+        }
+        nav a:hover {
+            background-color: #ddd;
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0 0 0 / 0.2);
+        }
+        .-left-60 {
+            left: -15rem;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <header>
+         <button>&#9776;</button>
+    </header>
+
+    <div class="container">
+        <nav class="-left-60">
+            <h1>Logo</h3>
+            <ul>
+                <li>
+                    <a href="">Link</a>
+                </li>
+                <li>
+                    <a href="">Link</a>
+                </li>
+                <li>
+                    <a href="">Link</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="overlay" class="hidden"></div>
+    </div>
+
+    <main>
+        <h1>Side Bar</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque totam cum eius! Ut, nobis quasi magni molestiae dicta earum, molestias repudiandae ex similique iusto ipsum vero? Reiciendis laborum sapiente ratione.</p>
+    </main>
+
+    <script>
+        let button = document.querySelector('button');
+        let nav = document.querySelector('nav');
+        let overlay = document.getElementById('overlay');
+
+        button.addEventListener('click', (e) => {
+            nav.classList.remove('-left-60');
+            overlay.classList.remove('hidden');
+        })
+
+        overlay.addEventListener('click', (e) => {
+            nav.classList.add('-left-60');
+            overlay.classList.add('hidden');
+        })
+    </script> -->
+
+    <!-- <style>
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0 0 0 / 0.2);
+        }
+        .container {
+            background-color: #fff;
+            width: 20rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 100px auto 0;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <h1>Modal</h1>
+    <button>Open Modal</button>     
+
+    <div id="modal" class="hidden">
+        <div class="container">
+            <h1>Modal Content</h1>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque reiciendis aut magni rem molestias perspiciatis excepturi porro facilis. Error nemo itaque vero, reprehenderit possimus sunt adipisci similique odio at sint.</p>
+        </div>
+    </div>
+
+    <script>
+        let button = document.querySelector('button');
+        let modal = document.getElementById('modal');
+
+        button.addEventListener('click', (e) => {
+            modal.classList.remove('hidden');
+        })
+
+        modal.addEventListener('click', (e) =>{
+            console.log(e.target);
+            if(e.target===modal){
+                 modal.classList.add('hidden');
+            }
+        })
+    </script> -->
+
+    <!-- <style>
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0 0 0 / 0.2);
+        }
+        .container {
+            background-color: #fff;
+            width: 20rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 100px auto 0;
+        }
+        .hidden {
+            display: none;
+        }
+        span {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+    <button>Open Modal</button>
+
+    <div id="modal" class="hidden">
+        <div class="container">
+            <span>&times</span>
+            <h1>Modal Content</h1>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae rerum nisi id esse saepe illo est sit repellendus veritatis provident, temporibus, asperiores laboriosam quas architecto ea ipsum similique ad quae!</p>
+        </div>
+    </div>
+
+    <script>
+        let button = document.querySelector('button');
+        let modal = document.getElementById('modal');
+        let span = document.querySelector('span')
+
+        button.addEventListener('click', (e) => {
+            modal.classList.remove('hidden');
+        })
+
+        modal.addEventListener('click', (e) =>{
+            console.log(e.target);
+            if(e.target===modal){
+                modal.classList.add('hidden');
+            }
+        })
+
+        span.addEventListener('click', (e) => {
+            modal.classList.add('hidden');
+        })
+    </script> -->
+
+    <!-- <style>
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input {
+            padding: 0.5rem;
+            width: 12rem;
+            outline: none;
+        }
+        .red {
+            color: #f00;
+        }
+    </style>
+
+    <h1>Form예제 : 유효성 검사</h1>
+
+    <form action="">
+        <label for="">Username</label>
+        <input type="text">
+        <p></p>
+    </form>
+
+    <script>
+        let input = document.querySelector('input');
+        let p = document.querySelector('p');
+
+        // keyup - 키보드로 입력했을때
+        input.addEventListener('keyup', (e) => {
+            // e.target : input
+            // console.log(e.target.value);
+            let value = e.target.value.trim();
+            let message;
+
+            // red 클래스 추가
+            p.classList.add('red');
+
+            if(!value) {
+                message = '유저 이름을 입력하세요.';
+            } else if(value.length<5) {
+                message = '유저 이름이 너무 짧습니다.';
+            } else {
+                // red 클래스 삭제
+                p.classList.remove('red');
+                message = '사용 가능한 유저 이름입니다.';
+            }
+            p.innerHTML = message;
+        })
+    </script> -->
+
+    <!-- <style>
+        form {
+            display: flex;
+            height: 2rem;
+        }
+        input {
+            width: 12rem;
+            padding: 0 0.5rem;
+        }
+        button {
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #222;
+        }
+    </style>
+
+    <h1>Newsletter</h1>
+
+    <div id="container">
+        <form action="">
+            <input type="text" placeholder="bunny@example.com" required>
+            <button>구독하기</button>
+        </form>
+    </div>
+
+    <script>
+        let container = document.getElementById('container');
+        let form = document.querySelector('form');
+
+        form.addEventListener('submit', (e) => {
+            /*
+                Event.preventDefault()
+                엘리먼트의 기본 기능을 실행하지 않는다.
+                ex) 폼을 제출하지 않음
+
+                AJAX 요청과 함께 사용된다.
+            */
+            e.preventDefault();
+
+            // preventDefault 다음 AJAX 요청
+
+            container.innerHTML = '<h1>구독해주셔서 감사합니다.</h1>';
+        })
+    </script> -->
+
+    <!-- <style>
+        form {
+            width: 20rem;
+        }
+        input, textarea {
+            padding: 0 0.5rem;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        button {
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+    </style>
+
+    <div id="container">
+        <form action="" >
+            <h1>Contact</h1>
+            <input type="text" placeholder="성함" name="name">
+            <input type="text" placeholder="이메일" name="email">
+            <textarea name="message" id="" cols="30" rows="10" placeholder="메시지"></textarea>
+            <button>보내기</button>
+        </form>
+    </div>
+
+    <script>
+        let form = document.querySelector('form')
+
+        // form.addEventListener('submit', (e) => {
+        //     e.preventDefault();
+
+        //     // form 데이터 접근시 name 사용
+        //     let formData = new FormData(form);
+        //     // console.log(formData.get('name'));
+        //     // console.log(formData.get('email'));
+        //     // console.log(formData.get('message'));
+
+        //     if(!formData.get('name')) {
+        //         return alert('이름을 입력하세요.');
+        //     }
+        //     if(!formData.get('email')) {
+        //         return alert('이메일을 입력하세요.');
+        //     }
+        //     if(!formData.get('message')) {
+        //         return alert('메시지를 입력하세요.');
+        //     }
+        //     // 서버에 제출
+
+        //     let container = document.getElementById('container');
+        //     container.innerHTML = '<h1>빠른 시일내에 연락드리겠습니다.</h1>'
+            
+        // })
+        
+        form.addEventListener('submit', (e) => {
+            try {
+                e.preventDefault();
+
+                let formData = new FormData(e.garget);
+                if(!formData.get('name')) {
+                    throw '이름을 입력하세요.'
+                }
+                if(!formData.get('email')) {
+                    throw '이메일을 입력하세요.'
+                }
+                if(!formData.get('message')) {
+                    throw '메시지를 입력하세요.'
+                }
+                document.getElementById('container').innerHTML = '<h1>빠른 시일 내에 연락드리겠습니다. </h1>'
+            } catch(err) {
+                alert(err);
+            }
+        })
+    </script> -->
+
+    <!-- <h1>Gallery</h1>
+    <style>
+        #main {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+        .container {
+            display: flex;
+        }
+        .container img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        .container img:hover {
+            opacity: 1;
+        }
+    </style>
+
+    <img src="C:\Users\Administrator\Documents\김진영\img\cat.jpg" alt="" id="main">
+
+    <div class="container">
+        <img src="C:\Users\Administrator\Documents\김진영\img\cat.jpg" alt="" onclick="f(this)">
+        <img src="C:\Users\Administrator\Documents\김진영\img\dog.jpg" alt="" onclick="f(this)">
+        <img src="C:\Users\Administrator\Documents\김진영\img\rabbit.png" alt="" onclick="f(this)">
+    </div>
+
+    <script>
+        function f(el) {
+            console.log(el.src);
+            let main = document.getElementById('main');
+            main.src = el.src;
+        }
+    </script> -->
+
+    <!-- <h1>Q. Modal Gallery</h1>
+    <style>
+        #modal {
+            position: fixed;
+            background-color: rgba(0 0 0 / 0.8);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #main {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            margin: 100px auto 0;
+        }
+        .container {
+            display: flex;
+        }
+        .container img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <div id="modal" class="hidden">
+        <img src="" alt="" id="main">
+    </div>
+
+    <div class="container">
+        <img src="C:\Users\Administrator\Documents\김진영\img\cat.jpg" alt="" onclick="f(this)">
+        <img src="C:\Users\Administrator\Documents\김진영\img\dog.jpg" alt="" onclick="f(this)">
+        <img src="C:\Users\Administrator\Documents\김진영\img\rabbit.png" alt="" onclick="f(this)">
+    </div>
+
+    <script>
+        let main = document.getElementById('main');
+        let modal = document.getElementById('modal');
+
+        function f(el) {
+            modal.classList.remove('hidden');
+            main.src = el.src;
+        }
+        modal.addEventListener('click', (e) => {
+            console.log(e.target);
+            if(e.target===modal) {
+                modal.classList.add('hidden');
+            }
+        })
+    </script> -->
+
+    <!-- <h1>Carousel</h1>
+    <style>
+        *{box-sizing: border-box;}
+        .wrap {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 0 50px #888;
+        }
+        #container {
+            width: 200px;
+            height: 200px;
+            /* background-color: #ddd; */
+            display: inline-flex;
+            transition: 0.2s;
+        }
+        .item {
+            width: inherit;
+            height: inherit;
+            /* border: 1px dashed; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .nav button {
+            position: absolute;
+            height: 100%;
+            border: none;
+            background-color: transparent;
+        }
+        .nav #prev {
+            top: 0;
+            left: 0;
+        }
+        .nav #next {
+            top: 0;
+            right: 0;
+        }
+        .indicator {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        .active {
+            color: #00f;
+        }
+    </style>
+
+    <div class="wrap">
+        <div id="container">
+            <div class="item">1</div>
+            <div class="item">2</div>
+            <div class="item">3</div>
+        </div>
+        <div class="nav">
+            <button id="prev" class="hidden" onclick="f(-1)">&#10094;</button>
+            <button id="next" onclick="f(1)">&#10095;</button>
+        </div>
+        <div class="indicator">
+            <span class="dot active">*</span>
+            <span class="dot">*</span>
+            <span class="dot">*</span>
+        </div>
+    </div>
+
+    <script>
+        let index = 0;
+        let container = document.getElementById('container');
+        let prev = document.getElementById('prev');
+        let next = document.getElementById('next');
+        let dots = document.querySelectorAll('.dot');
+        
+        console.log(dots);  // NodeList
+
+        function f(data) {
+            index += data;
+            console.log(index);
+
+            // # 이미지 이동
+            container.style.transform = `translateX(-${index * 200}px)`;
+
+            // # 이전 버튼
+            if(index === 0) {
+                prev.classList.add('hidden');
+            }else {
+                prev.classList.remove('hidden');
+            }
+
+            // # 다음 버튼
+            if(index === 2) {
+                next.classList.add('hidden');
+            }else {
+                next.classList.remove('hidden');
+            }
+
+            // # indicator
+            for(let dot of dots) {
+                dot.classList.remove('active');
+            }
+            dots[index].classList.add('active');
+        }
+    </script> -->
+
+    <!-- <style>
+        .container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            border: 1px solid;
+        }
+        .item {
+            width: inherit;
+            height: inherit;
+        }
+        img {
+            width: inherit;
+            height: inherit;
+            object-fit: cover;
+        }
+        .indicator {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .indicator .dot {
+            color: #888;
+        }
+        .indicator .active {
+            color: #000;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <h1>Auto Carousel</h1>
+
+    <div class="container">
+        <div class="item">
+            <img src="C:\Users\Administrator\Documents\김진영\img\cat.jpg" alt="">
+        </div>
+        <div class="item hidden">
+            <img src="C:\Users\Administrator\Documents\김진영\img\dog.jpg" alt="">
+        </div>
+        <div class="item hidden">
+            <img src="C:\Users\Administrator\Documents\김진영\img\rabbit.png" alt="">
+        </div>
+
+        <div class="indicator">
+            <span class="dot active">*</span>
+            <span class="dot">*</span>
+            <span class="dot">*</span>
+        </div>
+    </div>
+
+    <script>
+        let index = 0;
+        let items = document.querySelectorAll('.item');
+        let dots = document.querySelectorAll('.dot');
+
+        console.log(items);
+
+        setInterval(f, 1000);
+
+        function f() {
+            index += 1;
+
+            if(index===3) {
+                index = 0;
+            }
+            console.log(index);
+
+            // #  이미지
+            for(let item of items) {
+                item.classList.add('hidden');
+            }
+            items[index].classList.remove('hidden');
+
+            // # indicator
+            for(let dot of dots) {
+                dot.classList.remove('active');
+            }
+            dots[index].classList.add('active');
+        }
+    </script> -->
+
+    <!-- <h1>Drag and Drop</h1>
+
+    <style>
+        #drop_zone {
+            border: 4px dashed #888;
+            width: 200px;
+            height: 100px;
+            padding: 1rem;
+        }
+    </style>
+
+    <div id="container">
+        <div id="drop_zone">
+            <p><i>여기</i>에 파일을 드래그 앤 드랍하세요.</p>
+        </div>
+    </div>
+
+    <script>
+        let dropZone = document.getElementById('drop_zone');
+
+        dropZone.addEventListener('dragover', dragOverHandler);
+        dropZone.addEventListener('drop', dropHandler);
+
+        function dropHandler(e) {
+            e.preventDefault();
+            console.log('드랍되었습니다.');
+
+            console.log(e.dataTransfer.files);
+
+            let files = Array.from(e.dataTransfer.files);
+            for(let file of files) {
+                console.log(file.name);
+            }
+            // 서버에 제출
+            document.getElementById('container').innerHTML = '<h1>제출되었습니다.</h1>'
+            console.log(files);
+        }
+
+        function dragOverHandler(e) {
+            console.log('드래그 중입니다');
+            e.preventDefault(); //브라우저가 파일을 열지 않는다. 
+        }
+    </script> -->
+
+    <!-- <style>
+        html {scroll-behavior: smooth;}
+        body {
+            min-height: 1000px;
+        }
+        button {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <h1>Top button</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore reprehenderit, cumque consequatur facere praesentium laborum. Quae corrupti ab deserunt blanditiis. Odio, cum! Mollitia officia beatae impedit cumque voluptas a architecto.</p>
+    <button class="hidden">Top</button>
+
+    <script>
+        let button = document.querySelector('button');
+
+        window.addEventListener('scroll', (e) => {
+            console.log(document.documentElement.scrollTop);
+
+            if(document.documentElement.scrollTop < 200) {
+                button.classList.add('hidden');
+            }else {
+                button.classList.remove('hidden');
+            }
+        })
+
+        button.addEventListener('click', (e) => {
+            document.documentElement.scrollTop = 0;
+        })
+    </script> -->
+</body>
+</html>

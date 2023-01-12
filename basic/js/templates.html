@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-5"> 
+    <style>
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0 0 0 / 0.2);
+        }
+        .container {
+            background-color: #fff;
+            width: 20rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 100px auto 0;
+        }
+        .max-h-0 {
+            max-height: 0;
+        }
+        .max-h-40 {
+            max-height: 10rem;
+        }
+        .item {
+            overflow-y: hidden;
+            transition: 0.2s;
+        }
+        .item p {
+            margin: 0;
+            padding: 1rem;
+        }
+        .border {
+            border-bottom: 1px solid black;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+    <!-- Navightion -->
+    <header>
+        <div class="flex">
+            <button class="text-2xl">&#9776</button>
+            <h3 class="text-2xl ml-5 font-bold">World Beer</h3>
+        </div>
+        <nav class="hidden">
+            <ul>
+                <li class="pt-2">
+                    <a href="#" >Link</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="pt-2">
+                    <a href="#">Link</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="pt-2">
+                    <a href="#">Link</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contents -->
+    <h1 class="font-bold text-2xl pt-3">Tap Contents</h1>
+    <div class="pt-5">
+        <button id="default" onclick="f(event, 'b0')">Guinness</button>
+        <button onclick="f(event, 'b1')">Heineken</button>
+        <button onclick="f(event, 'b2')">Budweiser</button>
+    </div>
+    <div id="b0" class="beer item pt-5">
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic possimus aperiam nulla quibusdam accusamus tempore cumque, magnam placeat, fugit asperiores aliquam vero consectetur excepturi culpa quaerat ut libero blanditiis nisi!</p>
+    </div>
+    <div id="b1" class="beer item pt-5">
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum beatae cumque aperiam quas suscipit eaque unde quis consequatur molestiae rem vel laborum, minus praesentium sed, itaque autem. Non, sunt accusamus?</p>
+    </div>
+    <div id="b2" class="beer item pt-5">
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque praesentium fugit magnam eligendi, commodi tempora possimus nihil modi provident autem dicta inventore dolorem deleniti nisi sint iure dolores repudiandae doloribus.</p>
+    </div>
+
+    <!-- Modal -->
+    <h1 class="text-2xl pt-5 font-bold">Modal</h1>
+    <button class="pt-5 border">button</button>
+
+    <div id="modal" class="hidden">
+        <div class="container">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, molestiae! Saepe fugiat minima, eum architecto quisquam necessitatibus soluta, rem quos atque consequatur iste fuga, iusto doloremque facilis tenetur nemo. Maiores!</p>
+        </div>
+    </div>
+
+    <!-- Accodion -->
+    <h1 class="text-2xl font-bold pt-5">Accordion</h1>
+    <div>
+        <button onclick="func(this)" class="pt-5 button">Guinness</button>
+        <div class="max-h-0 item">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, laudantium! Tempora ea consequuntur suscipit ducimus facere animi distinctio quasi veniam, quis laudantium molestias corrupti vero a omnis, dolore ab corporis?</p>
+        </div>
+    </div>
+    <div>
+        <button onclick="func(this)" class="pt-5 button">Heineken</button>
+        <div class="max-h-0 item">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, non repellat fugiat accusantium natus ipsa tenetur laboriosam alias tempora ab quaerat iure dolorem quia rerum error illum quo, illo similique.</p>
+        </div>
+    </div>
+    <div>
+        <button onclick="func(this)" class="pt-5 button">Budweiser</button>
+        <div class="max-h-0 item">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aliquid atque cumque nobis soluta veniam eligendi quo accusantium nemo, eos repudiandae dolorum, itaque quod vitae tenetur voluptatem consectetur quas odit!</p>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        var button = document.querySelectorAll('button');
+
+        button[0].addEventListener('click', (e) => {
+            let nav = document.querySelector('nav');
+            nav.classList.toggle('hidden');
+        })
+
+        // Content
+        function f(e, id) {
+            var button2 = document.querySelectorAll('button');
+            for(var i=0; i<button2.length; i++) {
+                button2[i].classList.remove('border');
+            }
+            e.target.classList.add('border');
+
+            let beers = document.getElementsByClassName('beer');
+
+            
+            for(let i=0; i<beers.length; i++) {
+                beers[i].classList.add('hidden');
+            }
+
+            let beer = document.getElementById(id);
+            beer.classList.remove('hidden');
+        }
+        document.getElementById('default').click();
+
+        // Modal
+        var modal = document.getElementById('modal');
+
+        button[4].addEventListener('click', (e) => {
+            modal.classList.remove('hidden');
+        })
+
+        modal.addEventListener('click', (e) => {
+            if(e.target===modal) {
+                modal.classList.add('hidden');
+            }
+        })
+        
+        // Accordion
+        function func(el) {
+            // console.log(el)
+            const item = el.nextElementSibling;
+            
+            el.classList.toggle('active');
+            // toggle - 클래스에 이름이 있을시 빼고 없으면 추가함.
+            item.classList.toggle('max-h-0');
+            item.classList.toggle('max-h-40');
+        }
+    </script>
+</body>
+</html>
