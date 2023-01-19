@@ -1,5 +1,9 @@
-import React from 'react';
-
+import React, {
+  createContext, 
+  useContext,
+  useState
+} 
+from 'react';
 export default App;
 
 // function App() {
@@ -380,69 +384,308 @@ export default App;
 // }
 
 // 서버로부터 응답받은 데이터
-const video = {
-  title: "고양이는 액체일까?",
-  src: "https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg"
-}
-const suggestedVideos = [
-  {id: 'a0', title: '고양이는 정말 폭력적일까?'},
-  {id: 'a1', title: '고양이는 정말 자기가 신이라고 생각할까?'},
-  {id: 'a2', title: '냥냥펀치는 얼마나 아플까?'}
-]
-const comments = [
-  {id: 'c0', contents: '1빠'},
-  {id: 'c1', contents: '2빠'},
-  {id: 'c2', contents: '유치하게 등수는... 3빠'}
-]
+// const video = {
+//   title: "고양이는 액체일까?",
+//   src: "https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg"
+// }
+// const suggestedVideos = [
+//   {id: 'a0', title: '고양이는 정말 폭력적일까?'},
+//   {id: 'a1', title: '고양이는 정말 자기가 신이라고 생각할까?'},
+//   {id: 'a2', title: '냥냥펀치는 얼마나 아플까?'}
+// ]
+// const comments = [
+//   {id: 'c0', contents: '1빠'},
+//   {id: 'c1', contents: '2빠'},
+//   {id: 'c2', contents: '유치하게 등수는... 3빠'}
+// ]
+
+// function App() {
+//   return (
+//     <>
+//       <h1>Youtube</h1>
+//       <Content video={video} />
+//       <Comments comments={comments} />
+//       <hr />
+//       <SuggestedVideos suggestedVideos={suggestedVideos} />
+//     </>
+//   )
+// }
+
+// function Content(props) {
+//   const video = props.video;
+//   return (
+//     <div>
+//       <h2>{video.title}</h2>
+//       <img src={video.src} alt="" width="100%" />
+//     </div>
+//   )
+// }
+
+// function Comments(props) {
+//   const comments = props.comments;
+//   console.log(comments);
+//   return (
+//     <>
+//       <h1>Comments</h1>
+//       <ul>
+//         {comments.map(comment => (
+//           <li key={comment.id}>{comment.contents}</li>
+//         ))}
+//       </ul>
+//     </>
+//   )
+// }
+
+// function SuggestedVideos(props) {
+//   const suggestedVideos = props.suggestedVideos
+//   console.log(suggestedVideos);
+//   return (
+//     <>
+//       <h1>Suggested</h1>
+//       <ul>
+//         {suggestedVideos.map(suggesteVideos => (
+//           <li key={suggesteVideos.id}>{suggesteVideos.title}</li>
+//         ))}
+//       </ul>
+//     </>
+//   )
+// }
+
+// const profile = {
+//   username: '다나카',
+//   image: 'https://image.xportsnews.com/contents/images/upload/article/2022/1206/mb_1670300078707386.jpg',
+//   bio: '안녕하세요 여러봉구, 다나카입니다'
+// }
+
+// const accounts = [
+//   {id: 's0', username: '나몰라패밀리 공식계정'},
+//   {id: 's1', username: '나몰라패밀리 김태환'},
+//   {id: 's2', username: '아싸 최우선'}
+// ]
+
+// const articles = [
+//   {id: 'a0', title: '시그니처 아르마니 티셔츠 입고왔어요~'},
+//   {id: 'a1', title: '웃찾사 때보다 인기도 수입도 10배'}
+// ]
+
+// function App() {
+//   return (
+//     <>
+//       <h1>Instargram</h1>
+//       <Profile profile={profile} />
+//       <Suggested accounts={accounts} />
+//       <Timeline articles={articles} />
+//     </>
+//   )
+// }
+
+// function Profile(props) {
+//   console.log(props.profile);
+
+//   return (
+//     <>
+//       <img src={profile.image} style={{width:"100px",height:"100px",objectFit:"cover", borderRadius:"50%"}} />
+//       <h3>{profile.username}</h3>
+//       <p>{profile.bio}</p>
+//     </>
+//   )
+// }
+
+// function Suggested(props) {
+//   console.log(props.accounts);
+
+//   return (
+//     <>
+//       <h2>Suggested</h2>
+//       {accounts.map(accounts => (
+//         <li key={accounts.id}>{accounts.username}</li>
+//       ))}
+//     </>
+//   )
+// }
+
+// function Timeline(props) {
+//   console.log(props.articles);
+
+//   return (
+//     <>
+//       <h2>Timeline</h2>
+//       {articles.map(articles  => (
+//         <li key={articles.id}>{articles.title}</li>
+//       ))}
+//     </>
+//   )
+// }
+
+/*
+  3. children props
+    - 컴포넌트에 자식 컴포넌트를 추가한다.
+*/
+// function App() {
+//   return (
+//     <>
+//       <Layout>
+//         <Article />
+//       </Layout>
+//     </>
+//   )
+// }
+
+// function Layout(props) {
+//   return (
+//     <>
+//       <h1>Instargram</h1>
+//       <nav>
+//         <ul>
+//           <li>홈</li>
+//           <li>소개</li>
+//           <li>게시물</li>
+//         </ul>
+//       </nav>
+//       {props.children}
+//     </>
+//   )
+// }
+
+// function Article() {
+//   return (
+//     <>
+//       <img src="https://image.xportsnews.com/contents/images/upload/article/2022/1206/mb_1670300078707386.jpg" alt="다나카상" width="100%" />
+//       <p>
+//         <b>danaka </b>다나카상 라디오 스타 출연했어요 ^00^
+//       </p>
+//       <small>1일 전</small>
+//     </>
+//   )
+// }
+
+/*
+  4. useContext Hook
+    children 컴포넌트에 데이터를 전달하는 Hook(리액트에서 제공하는 함수)이다.
+*/
+
+// const AuthContext = createContext();
+
+// function App() {
+//   return (
+//       <AuthProvider>
+//         <Layout>
+//           <Article />
+//         </Layout>
+//       </AuthProvider>
+//   )
+// }
+
+// function AuthProvider(props) {
+//   const value = {username: 'bunny'}
+//   return (
+//     <AuthContext.Provider value={value}>
+//       {props.children}
+//     </AuthContext.Provider>
+//   )
+// }
+
+// function Layout(props) {
+//   const auth = useContext(AuthContext);
+//   console.log(auth);
+//   return (
+//     <>
+//       <h1>Instargram</h1>
+//       <nav>
+//         <ul>
+//           <li>홈</li>
+//           <li>소개</li>
+//           <li>게시물</li>
+//         </ul>
+//       </nav>
+//       <p>안녕하세요 {auth.username}님</p>
+//       {props.children}
+//     </>
+//   )
+// }
+
+// function Article() {
+//   const auth = useContext(AuthContext);
+//   console.log(auth);
+//   return (
+//     <>
+//       <img src="https://image.xportsnews.com/contents/images/upload/article/2022/1206/mb_1670300078707386.jpg" alt="다나카상" width="100%" />
+//       <p>
+//         <b>danaka </b>다나카상 라디오 스타 출연했어요 ^00^
+//       </p>
+//       <small>1일 전</small>
+//     </>
+//   )
+// }
+
+/*
+  리액트에서 이벤트 처리하기
+*/
+
+// function App() {
+//   function handleClick(e) {
+//     alert('lol');
+//   }
+//   return (
+//     <>
+//       <h1>Basic</h1>
+//       {/* onEventName=eventHandler */}
+//       <button onClick={handleClick}>Button</button>
+//     </>
+//   )
+// }
+
+/*
+  리액트에서 HTML 업데이트하기
+*/
+// function App() {
+//   /*
+//     count [state, setState] = useState(initialValue)
+//     state : 컴포넌트내에서 관리되는 변수
+//     setState : state를 업데이트하는 메서드
+//     initialValue : state의 초깃값
+//   */
+//   const [count, setCount] = useState(0);
+//   return(
+//     <>
+//       <h1>Count</h1>
+//       <p>{count}</p>
+//       <button onClick={() => setCount(count+1)}>Add</button>
+//     </>
+//   )
+// }
+
+// 위에것과 비슷하지만 작동하지 않는 예시
+// function App() {
+//   let count = 0;
+//   console.log(count);
+//   /*
+//     HTML을 업데이트하기 위해서는 DOM을 다시 리턴해야한다
+//     DOM을 다시 리턴하기 위해서는 컴포넌트를 다시 실행해야한다
+//     setState는 컴포넌트를 다시 실행한다
+//     HTML이 업데이트된다
+//   */
+//   function handleClick(e) {
+//     count++;
+//   }
+
+//   return (
+//     <>
+//       <h1>Count</h1>
+//       <p>{count}</p>
+//       <button onClick={handleClick}>Add</button>
+//     </>
+//   )
+// }
 
 function App() {
+  var [subscribed, setSubscribed] = useState(false)
+  console.log(subscribed)
+
   return (
     <>
-      <h1>Youtube</h1>
-      <Content video={video} />
-      <Comments comments={comments} />
-      <hr />
-      <SuggestedVideos suggestedVideos={suggestedVideos} />
-    </>
-  )
-}
-
-function Content(props) {
-  const video = props.video;
-  return (
-    <div>
-      <h2>{video.title}</h2>
-      <img src={video.src} alt="" width="100%" />
-    </div>
-  )
-}
-
-function Comments(props) {
-  const comments = props.comments;
-  console.log(comments);
-  return (
-    <>
-      <h1>Comments</h1>
-      <ul>
-        {comments.map(comments => (
-          <li key={comments.id}>{comments.contents}</li>
-        ))}
-      </ul>
-    </>
-  )
-}
-
-function SuggestedVideos(props) {
-  const suggestedVideos = props.suggestedVideos
-  console.log(suggestedVideos);
-  return (
-    <>
-      <h1>Suggested</h1>
-      <ul>
-        {suggestedVideos.map(suggesteVideos => (
-          <li key={suggesteVideos.id}>{suggesteVideos.title}</li>
-        ))}
-      </ul>
+      <h1>구독버튼</h1>
+      <button onClick={() => setSubscribed(!subscribed)}>{subscribed ? '구독취소' : '구독하기'}</button>
     </>
   )
 }
