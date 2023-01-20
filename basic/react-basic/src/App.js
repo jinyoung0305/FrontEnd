@@ -1,9 +1,12 @@
 import React, {
   createContext, 
   useContext,
+  useEffect,
   useState
 } 
 from 'react';
+import {BrowserRouter as Router, Routes, Route, Link, Outlet, useParams} from "react-router-dom";
+
 export default App;
 
 // function App() {
@@ -678,14 +681,348 @@ export default App;
 //   )
 // }
 
+// function App() {
+//   var [subscribed, setSubscribed] = useState(false)
+//   console.log(subscribed)
+
+//   return (
+//     <>
+//       <h1>구독버튼</h1>
+//       <button onClick={() => setSubscribed(!subscribed)}>{subscribed ? '구독취소' : '구독하기'}</button>
+//     </>
+//   )
+// }
+
+// function App() {
+//   const [count, setCount] = useState(0);
+
+//   return (
+//     <>
+//       <h1>count: {count}</h1>
+//       <Article
+//         count={count}
+//         setCount={setCount}
+//       />
+//     </>
+//   )
+// }
+
+// function Article(props) {
+//   return (
+//     <>
+//       <button onClick={() => props.setCount(props.count + 1)}>Add</button>
+//     </>
+//   )
+// }
+
+/*
+  리액트 라우터
+  1. 리액트 라우터란?
+    - 라우터 : 요청(특히 url)에 적합한 작업을 수행하는 것
+  2. 라우터 기본
+  3. 인증이 적용된 라우터
+*/
+
+// function Home() {
+//   return <h1>Home</h1>
+// }
+
+// function About() {
+//   return <h1>About</h1>
+// }
+
+// function Posts() {
+//   return(
+//     <>
+//       <h1>Posts</h1>
+//       <ul>
+//         <li>
+//           <Link to="/post/p1">Post 1</Link>
+//         </li>
+//         <li>
+//           <Link to="/post/p2">Post 2</Link>
+//         </li>
+//       </ul>
+//     </>
+//   )
+// }
+
+// function Post() {
+//   /*
+//     useParams
+//       - url로 전달된 파라미터에 접근하게 한다
+//   */
+//   const params = useParams();
+//   const postId = params.postId;
+//   // postId를 서버에 전송한다.
+
+//   return (
+//     <>
+//       <h1>Title</h1>
+//       <p>{postId}</p>
+//     </>
+//   )
+// }
+
+// function NotFound() {
+//   return <h1>404 NotFound</h1>
+// }
+
+// function App() {
+//   return (
+//     <>
+//       <Router>
+//         <nav>
+//           <ul>
+//             <li>
+//               <Link to="/">Home</Link>
+//             </li>
+//             <li>
+//               <Link to="/about">About</Link>
+//             </li>
+//             <li>
+//               <Link to="/posts">Posts</Link>
+//             </li>
+//           </ul>
+//         </nav>
+//         <Routes>
+//           <Route path="/" element={<Home />} />
+//           <Route path="/about" element={<About />} />
+//           <Route path="/posts" element={<Posts />} />
+//           <Route path="/post/:postId" element={<Post />} />
+//           <Route path="*" element={<NotFound />} />
+//         </Routes>
+//       </Router>
+//     </>
+//   )
+// }
+
+// 3. 인증이 적용된 라우터
+
+// function App() {
+//   return (
+//     <Router>
+//       <AuthProvider>
+//         <Routes>
+//           <Route path="/" element={<Layout />}>
+//             <Route index element={<Home />} />
+//             <Route path="posts" element={<Posts />} />
+//             <Route path="post/:postId" element={
+//               <AuthRequired>
+//                 <Post />
+//               </AuthRequired>
+//             } />
+//             <Route path="*" element={<NotFound />} />
+//           </Route>
+//         </Routes>
+//       </AuthProvider>
+//     </Router>
+//   )
+// }
+
+// const AuthContext = createContext();
+
+// function AuthProvider(props) {
+//   const [user, setUser] = useState(null);
+
+//   // 로그인
+//   function signIn(username) {
+//     setUser(username);
+//   }
+  
+//   // 로그아웃
+//   function signOut() {
+//     setUser(null);
+//   }
+
+//   const value = {user, signIn, signOut};
+
+//   return (
+//     <AuthContext.Provider value={value}>
+//       {props.children}
+//     </AuthContext.Provider>
+//   )
+// }
+
+// function Layout() {
+//   const auth = useContext(AuthContext);
+
+//   return (
+//     <>
+//       <nav>
+//         <ul>
+//           <li>
+//             <Link to="/">Home</Link>
+//           </li>
+//           <li>
+//             <Link to="/posts">Posts</Link>
+//           </li>
+//         </ul>
+//       </nav>
+//       {auth.user ? (
+//         <p>
+//           Hi, {auth.user} {" "}
+//           <button onClick={auth.signOut}>
+//             LogOut
+//           </button>
+//         </p>
+//       ) : (
+//         <p>
+//           Not logged in
+//         </p>
+//       )}
+//       <Outlet />
+//     </>
+//   )
+// }
+
+// function Home() {
+//   return <h1>Home</h1>
+// }
+
+// function Posts() {
+//   return (
+//     <>
+//       <h1>Posts</h1>
+//       <ul>
+//         <li>
+//           <Link to="/post/p1">Post 1</Link>
+//         </li>
+//         <li>
+//           <Link to="/post/p2">Post 2</Link>
+//         </li>
+//       </ul>
+//     </>
+//   )
+// }
+
+// function AuthRequired(props) {
+//   const auth = useContext(AuthContext);
+
+//   console.log(auth)
+
+//   function handleSubmit(e) {
+//     e.preventDefault();
+
+//     const formData = new FormData(e.target);
+//     // console.log(formData.get('username'));
+
+//     auth.signIn(formData.get('username'));
+//   }
+
+//   if(!auth.user) {
+//     return (
+//       <form onSubmit={handleSubmit}>
+//         <h1>Login</h1>
+//         <input type="text" name="username" required />
+//         <button tupe="submit">Login</button>
+//       </form>
+//     )
+//   }
+
+//   return props.children;
+// }
+
+// function Post() {
+//   const params = useParams();
+//   const postId = params.postId;
+
+//   return (
+//     <>
+//       <h1>Post</h1>
+//       <p>{postId}</p>
+//     </>
+//   )
+// }
+
+// function NotFound() {
+//   return <h1>404 NotFound</h1>
+// }
+
+/*
+  데이터 가져오기
+  1. 데이터 가져오기란? 
+    - 서버에 데이터를 요청해서 응답받는 것
+  2. useEffect Hook
+  3. 데이터 가져오기 예시
+*/
+
+// 2. useEffect Hook
+
+// function App() {
+//   const [count, setCount] = useState(0);
+
+//   /*
+//     useEffect - 비동기적으로 작동한다.
+//     1. useEffect(effect) : effect는 컴포넌트가 실행될때마다 실행된다
+//     2. useEffect(effect, []) : effect는 컴포넌트의 최초 실행시에만 실행된다
+//     3. useEffect(effect, [dep]) : effect는 컴포넌트의 최초 실행시, dependency가 업데이트 될 때마다 실행된다.
+//   */
+
+//   useEffect(() => {
+//     console.log('lol');
+//   }, [])
+
+//   return (
+//     <>
+//       <h1>count : {count}</h1>
+//       <button onClick={() => setCount(count+1)}>+</button>
+//     </>
+//   )
+// }
+
+// 3. 데이터 가져오기 예시
+
+// 서버에 데이터를 요청하는 함수
+// 서버에서 응답을 주는데 2초가 걸린다고 가정
+function fetchData() {
+  const DATA = {
+    username: 'danaka',
+    image: 'https://image.xportsnews.com/contents/images/upload/article/2022/1206/mb_1670300078707386.jpg',
+    bio: '안녕하세요 여러봉구, 다나카입니다 ^00^'
+  }
+
+  const promise = new Promise((res, rej) => {
+    setTimeout(() => {
+      res(DATA)
+    }, 2000)
+  })
+
+  return promise
+}
+
 function App() {
-  var [subscribed, setSubscribed] = useState(false)
-  console.log(subscribed)
+  const [error, setError] = useState(null)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [profile, setProfile] = useState(null)
+
+  // 호출순서와 관계없이 비동기는 가장 마지막에 실행
+  useEffect(() => {
+    fetchData()
+    .then(data => {
+      // profile 업데이트
+      setProfile(data)
+    })
+    .catch(error => {
+      setError(error)
+    })
+    .finally(() => setIsLoaded(true))
+  }, [])
+
+  if(error) {
+    return <p>failed to fetch profile</p>
+  }
+
+  if(!isLoaded) {
+    return <p>fetching profile</p>
+  }
 
   return (
     <>
-      <h1>구독버튼</h1>
-      <button onClick={() => setSubscribed(!subscribed)}>{subscribed ? '구독취소' : '구독하기'}</button>
+      <h1>Profile</h1>
+      <img src={profile.image} alt={profile.username} style={{width:'100px', height:'100px', objectFit:'cover', borderRadius:'50%'}} />
+      <h3>{profile.username}</h3>
+      <p>{profile.bio}</p>
     </>
   )
 }
