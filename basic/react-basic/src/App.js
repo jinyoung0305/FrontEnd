@@ -975,54 +975,209 @@ export default App;
 
 // 서버에 데이터를 요청하는 함수
 // 서버에서 응답을 주는데 2초가 걸린다고 가정
-function fetchData() {
-  const DATA = {
-    username: 'danaka',
-    image: 'https://image.xportsnews.com/contents/images/upload/article/2022/1206/mb_1670300078707386.jpg',
-    bio: '안녕하세요 여러봉구, 다나카입니다 ^00^'
-  }
+// function fetchData() {
+//   const DATA = {
+//     username: 'danaka',
+//     image: 'https://image.xportsnews.com/contents/images/upload/article/2022/1206/mb_1670300078707386.jpg',
+//     bio: '안녕하세요 여러봉구, 다나카입니다 ^00^'
+//   }
 
-  const promise = new Promise((res, rej) => {
-    setTimeout(() => {
-      res(DATA)
-    }, 2000)
-  })
+//   const promise = new Promise((res, rej) => {
+//     setTimeout(() => {
+//       res(DATA)
+//     }, 2000)
+//   })
 
-  return promise
+//   return promise
+// }
+
+// function App() {
+//   const [error, setError] = useState(null)
+//   const [isLoaded, setIsLoaded] = useState(false)
+//   const [profile, setProfile] = useState(null)
+
+//   // 호출순서와 관계없이 비동기는 가장 마지막에 실행
+//   useEffect(() => {
+//     fetchData()
+//     .then(data => {
+//       // profile 업데이트
+//       setProfile(data)
+//     })
+//     .catch(error => {
+//       setError(error)
+//     })
+//     .finally(() => setIsLoaded(true))
+//   }, [])
+
+//   if(error) {
+//     return <p>failed to fetch profile</p>
+//   }
+
+//   if(!isLoaded) {
+//     return <p>fetching profile</p>
+//   }
+
+//   return (
+//     <>
+//       <h1>Profile</h1>
+//       <img src={profile.image} alt={profile.username} style={{width:'100px', height:'100px', objectFit:'cover', borderRadius:'50%'}} />
+//       <h3>{profile.username}</h3>
+//       <p>{profile.bio}</p>
+//     </>
+//   )
+// }
+
+// todo-List 만들기
+
+const initialTasks = [
+  {id: "todo-0", name: "Eat", completed: true},
+  {id: "todo-1", name: "Sleep", completed: false},
+  {id: "todo-2", name: "Repeat", completed: false}
+]
+
+const FILTER_MAP = {
+  All: () => true,
+  Done: task => task.completed,
+  Active: task => !task.completed
 }
 
+// Object.key() : 객체 속성을 문자열 array로 return하는 함수
+const FILTER_NAMES = Object.keys(FILTER_MAP)
+console.log(FILTER_NAMES)
+
 function App() {
-  const [error, setError] = useState(null)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [profile, setProfile] = useState(null)
+  const [tasks, setTasks] = useState(initialTasks)
 
-  // 호출순서와 관계없이 비동기는 가장 마지막에 실행
-  useEffect(() => {
-    fetchData()
-    .then(data => {
-      // profile 업데이트
-      setProfile(data)
-    })
-    .catch(error => {
-      setError(error)
-    })
-    .finally(() => setIsLoaded(true))
-  }, [])
+  // tasks 추적하기
+  console.log(tasks);
 
-  if(error) {
-    return <p>failed to fetch profile</p>
+  function addTask(name) {
+    const newTask = {
+      id: `todo-${Math.random()}`,
+      name, // name: name(이름이 같을시 줄여쓰기 가능)
+      completed: false
+    }
+    // console.log(newTask)
+
+    const updatedTasks = [...tasks, newTask]
+    // console.log(updatedTasks)
+    setTasks(updatedTasks)
   }
 
-  if(!isLoaded) {
-    return <p>fetching profile</p>
+  function deleteTask(id) {
+    // console.log(id)
+
+    const remainingTasks = tasks.filter(task => task.id !== id)
+    // console.log(remainingTasks)
+
+    setTasks(remainingTasks)
+  }
+
+  function toggleTaskCompleted(id) {
+    // console.log(id)
+    const updatedTasks = tasks.map (task => {
+      if (task.id === id) {
+        return {...task, completed: !task.completed}
+      }
+      return task
+    })
+    setTasks(updatedTasks)
+  }
+
+  const filterButtons = FILTER_NAMES.map(name => (
+    <FilterButton key={name} name={name} />
+  ))
+
+  const taskList = tasks.map(task => (
+    <Todo
+      key={task.id}
+      id={task.id}
+      name={task.name}
+      completed={task.completed}
+      deleteTask={deleteTask}
+      toggleTaskCompleted={toggleTaskCompleted}
+    />
+  ))
+
+  return (
+    <div className="max-w-sm mx-auto mt-8 border p-4">
+      <h1 className="text-2xl text-center mb-4">할일 목록 &#128526; &#127928;</h1>
+
+      <Form addTask={addTask}/>
+      
+      <div className="flex flex-nowrap gap-1 mb-4">
+        {filterButtons}
+      </div>
+
+      <ul>
+        {taskList}
+      </ul>
+    </div>
+  )
+}
+
+function Form(props) {
+  const [name, setName] = useState("")
+
+  // console.log(name)
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    props.addTask(name)
+    // console.log(name)
+    // form을 제출하고 input을 비운다
+    setName("")
   }
 
   return (
-    <>
-      <h1>Profile</h1>
-      <img src={profile.image} alt={profile.username} style={{width:'100px', height:'100px', objectFit:'cover', borderRadius:'50%'}} />
-      <h3>{profile.username}</h3>
-      <p>{profile.bio}</p>
-    </>
+    <form
+      className="mb-4"
+      onSubmit={handleSubmit}
+    >
+      <input 
+        type="text"
+        className="border px-2 py-1 w-full mb-2"
+        value={name}
+        onChange={(e) => setName(e.target.value)} // input의 값이 바뀔때마다 일어나는 이벤트
+        autoComplete="off"          
+      />
+      <button 
+        type="submit"
+        className="p-1 w-full border disabled:opacity-50 text-blue-500"
+      >Add</button>
+    </form>
+  )
+}
+
+function FilterButton(props) {
+  return (
+    <button className="p-1 w-1/3">{props.name}</button>
+  )
+}
+
+function Todo(props) {
+  // console.log(props)
+
+  return (
+    <li className="mb-4">
+      <div className="flex mb-4">
+        <label>
+          <input
+            type="checkbox"
+            className="hidden peer"
+            checked={props.completed}
+            onChange={() => props.toggleTaskCompleted(props.id)}
+          />
+          <span className="text-xl peer-checked:line-through">
+            {props.name}
+          </span>
+        </label>
+      </div>
+      <div className="flex flex-nowrap gap-1">
+        <button className="w-1/2 p-1 border">Edit</button>
+        <button className="w-1/2 p-1 border text-red-500"
+        onClick={() => props.deleteTask(props.id)}>Delete</button>
+      </div>
+    </li>
   )
 }
