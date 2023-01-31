@@ -2,7 +2,8 @@ import React, {
   createContext, 
   useContext,
   useEffect,
-  useState
+  useState,
+  useRef
 } 
 from 'react';
 import {BrowserRouter as Router, Routes, Route, Link, Outlet, useParams} from "react-router-dom";
@@ -1029,6 +1030,7 @@ export default App;
 
 // todo-List 만들기
 
+// 초기할일 목록
 const initialTasks = [
   {id: "todo-0", name: "Eat", completed: true},
   {id: "todo-1", name: "Sleep", completed: false},
@@ -1043,14 +1045,16 @@ const FILTER_MAP = {
 
 // Object.key() : 객체 속성을 문자열 array로 return하는 함수
 const FILTER_NAMES = Object.keys(FILTER_MAP)
-console.log(FILTER_NAMES)
+// console.log(FILTER_NAMES)
 
 function App() {
   const [tasks, setTasks] = useState(initialTasks)
+  const [filter, setFilter] = useState('All')
 
   // tasks 추적하기
   console.log(tasks);
 
+  // 새로운 todo를 추가하는 함수
   function addTask(name) {
     const newTask = {
       id: `todo-${Math.random()}`,
@@ -1064,6 +1068,7 @@ function App() {
     setTasks(updatedTasks)
   }
 
+  // todo를 삭제하는 함수
   function deleteTask(id) {
     // console.log(id)
 
@@ -1073,6 +1078,7 @@ function App() {
     setTasks(remainingTasks)
   }
 
+  // todo 아이템에 completed의 형태를 바꾸는 함수
   function toggleTaskCompleted(id) {
     // console.log(id)
     const updatedTasks = tasks.map (task => {
@@ -1084,11 +1090,28 @@ function App() {
     setTasks(updatedTasks)
   }
 
+  function editTask(id, newName) {
+    // console.log(id, newName)
+    const editedTasks = tasks.map(task => {
+      if(task.id === id) {
+        return {...task, name: newName}
+      }
+      return task;
+    })
+    setTasks(editedTasks)
+  }
+
   const filterButtons = FILTER_NAMES.map(name => (
-    <FilterButton key={name} name={name} />
+    <FilterButton 
+      key={name} 
+      name={name} 
+      isPressed={filter === name} 
+      setFilter={setFilter} 
+    />
   ))
 
-  const taskList = tasks.map(task => (
+  // 할일 목록 리스트를 담은 함수
+  const taskList = tasks.filter(FILTER_MAP[filter]).map(task => (
     <Todo
       key={task.id}
       id={task.id}
@@ -1096,8 +1119,10 @@ function App() {
       completed={task.completed}
       deleteTask={deleteTask}
       toggleTaskCompleted={toggleTaskCompleted}
+      editTask={editTask}
     />
   ))
+  // console.log(FILTER_MAP[filter])
 
   return (
     <div className="max-w-sm mx-auto mt-8 border p-4">
@@ -1109,7 +1134,8 @@ function App() {
         {filterButtons}
       </div>
 
-      <ul>
+      <h2 className="text-xl mb-4">{taskList.length}개 남았습니다.</h2>
+      <ul>  
         {taskList}
       </ul>
     </div>
@@ -1144,6 +1170,9 @@ function Form(props) {
       <button 
         type="submit"
         className="p-1 w-full border disabled:opacity-50 text-blue-500"
+        // input에 입력값이 없을 경우 disabled
+        // trim() 문자열의 앞과 뒤에 있는 것을 제거하는 메서드
+        disabled={!name.trim()}
       >Add</button>
     </form>
   )
@@ -1151,15 +1180,37 @@ function Form(props) {
 
 function FilterButton(props) {
   return (
-    <button className="p-1 w-1/3">{props.name}</button>
+    <button 
+      className={"p-1 w-1/3 border " + (props.isPressed && "outline")}
+      onClick={() => props.setFilter(props.name)}  
+    >{props.name}</button>
   )
 }
 
 function Todo(props) {
   // console.log(props)
+  const [isEditing, setIsEditing] = useState(false)
+  const [newName, setNewName] = useState("")
+  const inputEl = useRef(null)
+  
+  function handleSubmit(e) {
+    e.preventDefault()
+    props.editTask(props.id, newName)
+    setIsEditing(false)
+    setNewName("")
+  }
 
-  return (
-    <li className="mb-4">
+  console.log(inputEl)
+
+  // DOM이 HTML에 주입되고 난 뒤 엘리먼트에 접근이 가능하다
+  useEffect(() => {
+    if(isEditing) {
+      inputEl.current.focus()
+    }
+  })
+
+  const viewTemplate = (
+    <>
       <div className="flex mb-4">
         <label>
           <input
@@ -1174,10 +1225,45 @@ function Todo(props) {
         </label>
       </div>
       <div className="flex flex-nowrap gap-1">
-        <button className="w-1/2 p-1 border">Edit</button>
-        <button className="w-1/2 p-1 border text-red-500"
-        onClick={() => props.deleteTask(props.id)}>Delete</button>
+        <button 
+          type="button"
+          className="w-1/2 p-1 border"
+          onClick={() => setIsEditing(true)}
+        >Edit</button>
+        <button 
+          className="w-1/2 p-1 border text-red-500"
+          onClick={() => props.deleteTask(props.id)}
+        >Delete</button>
       </div>
+    </>
+  )
+  const editingTemplate = (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        className="border px-2 py-1 w-full mb-2"
+        value={newName}
+        onChange={(e) => setNewName(e.target.value)}
+        ref={inputEl}
+      />
+      <div className="flex flex=nowrap gap-1">
+        <button
+          type="button"
+          className="w-1/2 p-1 border"
+          onClick={() => setIsEditing(false)}
+        >Cancel</button>
+        <button 
+          type="submit"
+          className="w-1/2 p-1 border disabled:opacity-50 text-blue-500"
+          disabled={!newName.trim()}
+        >Save</button>
+      </div>
+    </form>
+  )
+
+  return (
+    <li className="mb-4">
+      {isEditing ? editingTemplate : viewTemplate}
     </li>
   )
 }
