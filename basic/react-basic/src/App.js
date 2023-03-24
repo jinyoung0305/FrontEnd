@@ -1267,3 +1267,100 @@ function Todo(props) {
     </li>
   )
 }
+
+const initialBeers = [
+  { id: 'b0', name: '기네스'},
+  { id: 'b1', name: '하이네켄'},
+  { id: 'b2', name: '버드와이저'},
+  { id: 'b3', name: '클라우드'},
+  { id: 'b4', name: '아사히'},
+]
+
+function App() {
+
+  const [ beers, setBeers ] = useState(initialBeers)
+
+  function addBeer(name) {
+    const newBeer = { id: Math.random(), name}
+    setBeers([newBeer, ...beers])
+  }
+
+  function deleteBeer(id) {
+    const remainingBeers = beers.filter(beer => beer.id !== id)
+    setBeers(remainingBeers)
+  }
+
+  const beerList = beers.map(beer => (
+    <Beer key={beer.id} beer={beer} deleteBeer={deleteBeer} beers={beers} />
+  ))
+
+  return (
+    <>
+      <h1>세계맥주</h1>
+      <Form addBeer={addBeer}/>
+      <ul style={{display: "flex", flexDirection: "column", transition: '0.5s'}}>
+        {beerList}
+      </ul>
+    </>  
+  )
+}
+
+
+function Form({ addBeer }) {
+
+  const [ name, setName ] = useState("")
+
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    addBeer(name)
+  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      <button>추가</button>
+    </form>
+  )
+}
+
+function Beer({ beer, deleteBeer }) {
+
+  const [collapsed, setCollapsed] = useState(false)
+  
+
+  const itemStyle = {
+    height: collapsed ? '0' : '50px',
+    borderBottom: collapsed ? 'none' : '1px solid #ddd',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '0 1rem',
+    overflow: 'hidden',
+    transition: '0.2s'
+  }
+
+  const buttonStyle = {
+    border: 'none',
+    color: '#f00',
+    backgroundColor: 'teansparent',
+    cursor: 'pointer',
+    fintWeight: '600'
+  }
+
+  function handleClick() {
+    setCollapsed(true)
+
+    setTimeout(() => {
+      deleteBeer(beer.id)
+    }, 500)
+  }
+
+  return (
+    <li style={itemStyle}>
+      {beer.name}
+      <button style={buttonStyle} onClick={handleClick}>
+        삭제
+      </button>
+    </li>
+  )
+}
