@@ -977,5 +977,42 @@
             document.documentElement.scrollTop = 0;
         })
     </script> -->
+    
+    <style>
+    .el {
+      opacity: 0;
+      transition: 0.5s;
+    }
+    .el.opacity-100 {
+      opacity: 1;
+      transition: 2s;
+    }
+  </style>
+  <h1>Scroll Event</h1>
+
+  <h1>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, nemo dolorem. Doloremque dolor earum voluptate, illo maxime sequi. Numquam esse provident possimus nesciunt cum ex quia! Eveniet libero dolorem animi?</h1>
+  <h1>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, nemo dolorem. Doloremque dolor earum voluptate, illo maxime sequi. Numquam esse provident possimus nesciunt cum ex quia! Eveniet libero dolorem animi?</h1>
+  <h1>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, nemo dolorem. Doloremque dolor earum voluptate, illo maxime sequi. Numquam esse provident possimus nesciunt cum ex quia! Eveniet libero dolorem animi?</h1>
+  <h1 class="el">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, nemo dolorem. Doloremque dolor earum voluptate, illo maxime sequi. Numquam esse provident possimus nesciunt cum ex quia! Eveniet libero dolorem animi?</h1>
+  <h1 class="el">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, nemo dolorem. Doloremque dolor earum voluptate, illo maxime sequi. Numquam esse provident possimus nesciunt cum ex quia! Eveniet libero dolorem animi?</h1>
+  <h1 class="el">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, nemo dolorem. Doloremque dolor earum voluptate, illo maxime sequi. Numquam esse provident possimus nesciunt cum ex quia! Eveniet libero dolorem animi?</h1>
+  <h1 class="el">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, nemo dolorem. Doloremque dolor earum voluptate, illo maxime sequi. Numquam esse provident possimus nesciunt cum ex quia! Eveniet libero dolorem animi?</h1>
+
+  <script>
+    var els = document.getElementsByClassName("el")
+
+    window.addEventListener("scroll", (e) => {
+
+      const viewPortHeight = window.innerHeight
+
+      for(var i=0; i<els.length; i++) {
+        const y = els[i].getBoundingClientRect().y
+  
+        if(y < viewPortHeight - 100) {
+          els[i].classList.add('opacity-100')
+        }
+      }
+    })
+  </script>
 </body>
 </html>
